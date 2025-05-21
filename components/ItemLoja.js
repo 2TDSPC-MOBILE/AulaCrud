@@ -1,9 +1,28 @@
 import { StyleSheet, View, Text, Pressable } from "react-native";
 import { AntDesign, MaterialIcons } from '@expo/vector-icons'
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import {db,doc,updateDoc,deleteDoc} from '../services/firebaseConfig'
 
 export default function ItemLoja(props) {
     const [isChecked, setIsChecked] = useState(props.isChecked)
+
+    const deletarItem = async() =>{
+        await deleteDoc(doc(db,'items',props.id))
+        props.buscarItems()
+    }
+
+    const updateIsChecked = async() =>{
+        const itemRef = doc(db,'items',props.id)
+
+        await updateDoc(itemRef,{
+            isChecked:isChecked
+        })
+    }
+
+    useEffect(()=>{
+        updateIsChecked()
+    },[isChecked])
+
     return (
         <View style={styles.container}>
             <Pressable onPress={()=>setIsChecked(!isChecked)}>
@@ -15,7 +34,7 @@ export default function ItemLoja(props) {
 
             </Pressable>
             <Text style={styles.title}>{props.title}</Text>
-            <Pressable>
+            <Pressable onPress={deletarItem}>
                 <MaterialIcons name='delete' size={24} color='black' />
             </Pressable>
         </View>

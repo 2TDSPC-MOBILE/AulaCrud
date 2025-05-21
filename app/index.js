@@ -2,7 +2,7 @@ import React from 'react'
 import {Text,View,TextInput,StyleSheet, FlatList, ActivityIndicator} from 'react-native'
 import ItemLoja from '../components/ItemLoja'
 import { useState,useEffect } from 'react'
-import { db,collection,addDoc,getDocs } from '../services/firebaseConfig'
+import { db,collection,addDoc,getDocs} from '../services/firebaseConfig'
 
 export default function TelaHome(){
     const[title,setTitle]=useState('')
@@ -53,6 +53,7 @@ export default function TelaHome(){
                         title={item.title}
                         isChecked={item.isChecked}
                         id={item.id}
+                        buscarItems={buscarItems}
                     />}
                 />
             ):(
